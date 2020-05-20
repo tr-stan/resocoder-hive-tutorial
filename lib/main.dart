@@ -27,6 +27,8 @@ class _MyAppState extends State<MyApp> {
       home: FutureBuilder(
         future: Hive.openBox(
           'contacts',
+          // can specify compaction vs Hive compacting automatically
+          // automatically does by its own strategy, at 60 deleted + other logic
           compactionStrategy: (int total, int deleted) {
             return deleted > 20;
           },
@@ -46,6 +48,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
+    // Hive will compact automatically, but you can do so under specific conditions
     Hive.box('contacts').compact();
     Hive.close();
     super.dispose();

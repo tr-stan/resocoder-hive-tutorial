@@ -31,6 +31,9 @@ class ContactPage extends StatelessWidget {
         return ListView.builder(
           itemCount: contactsBox.length,
           itemBuilder: (context, index) {
+            // using .getAt(index) allows to access at index vs. key
+            // this approach uses the box as a list vs. as a map (by key value)
+            // this is best when accessing hive content in a listview itembuilder
             final contact = contactsBox.getAt(index) as Contact;
 
             return ListTile(
