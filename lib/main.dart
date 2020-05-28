@@ -25,14 +25,16 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Hive Tutorial',
       home: FutureBuilder(
-        future: Hive.openBox(
-          'contacts',
-          // can specify compaction vs Hive compacting automatically
-          // automatically does by its own strategy, at 60 deleted + other logic
-          compactionStrategy: (int total, int deleted) {
-            return deleted > 20;
-          },
-        ),
+        future: Future.delayed(Duration(milliseconds: 2500), () {
+          Hive.openBox(
+            'contacts',
+            // can specify compaction vs Hive compacting automatically
+            // automatically does by its own strategy, at 60 deleted + other logic
+            compactionStrategy: (int total, int deleted) {
+              return deleted > 20;
+            },
+          );
+        }),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError)
@@ -40,7 +42,15 @@ class _MyAppState extends State<MyApp> {
             else
               return ContactPage();
           } else
-            return Scaffold();
+            return Scaffold(
+              body: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Image.network(
+                      "https://media.giphy.com/media/l0HlE1Zi6mJYDfwUU/giphy.gif"),
+                ),
+              ),
+            );
         },
       ),
     );
